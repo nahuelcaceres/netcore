@@ -35,5 +35,18 @@ namespace AspNetCoreTodo.Controllers
             return View(viewModel);
         }
 
+        [ValidateAntiForgeryToken] //Middelware que directamente si no matchea el token hidden del input... sale con error
+        public async Task<IActionResult> AddItem(TodoItem newItem)
+        {
+            //Modelbinding (matchea por nombre de las propiedades)
+            if(!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var successful = await _todoItemService.AddItemAsync(newItem);
+            
+
+        }
     }
 }

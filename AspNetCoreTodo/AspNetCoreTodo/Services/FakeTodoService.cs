@@ -23,5 +23,10 @@ namespace AspNetCoreTodo.Services
 
         }
 
+        public async Task<bool> AddItemAsync(TodoItem newItem)
+        {
+            return false;
+        }
+
     }
 }
