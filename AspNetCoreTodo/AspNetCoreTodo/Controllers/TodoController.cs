@@ -46,7 +46,11 @@ namespace AspNetCoreTodo.Controllers
 
             var successful = await _todoItemService.AddItemAsync(newItem);
             
+            if(!successful){
+                return BadRequest("Could not add item");
+            }
 
+            return RedirectToAction("index");
         }
     }
 }

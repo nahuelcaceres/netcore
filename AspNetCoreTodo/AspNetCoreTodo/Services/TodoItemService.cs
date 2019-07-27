@@ -1,11 +1,9 @@
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using AspNetCoreTodo.Data;
 using AspNetCoreTodo.Models;
 using Microsoft.EntityFrameworkCore;
-using AspNetCoreTodo.Services;
 
 namespace AspNetCoreTodo.Services
 {
@@ -33,7 +31,8 @@ namespace AspNetCoreTodo.Services
 
             _context.Items.Add(newItem);
 
-            var saveResult = _context.Items.SaveChangesAsync();
+            //var saveResult = await _context.Items.SaveChangesAsync();
+            var saveResult = await _context.SaveChangesAsync();
 
             return (saveResult == 1);
         }
