@@ -7,7 +7,7 @@ namespace AspNetCoreTodo.Services
     public class FakeTodoService : ITodoItemService
     {
 
-        public Task<TodoItem[]> GetIncompleteItemsAsync()
+        public Task<TodoItem[]> GetIncompleteItemsAsync(ApplicationUser currentUser)
         {
             var item1 = new TodoItem {
                 Title = "item1",
@@ -23,12 +23,12 @@ namespace AspNetCoreTodo.Services
 
         }
 
-        public async Task<bool> AddItemAsync(TodoItem newItem)
+        public async Task<bool> AddItemAsync(TodoItem newItem, ApplicationUser currentUser)
         {
             return false;
         }
 
-        public async Task<bool> MarkDoneAsync(Guid id)
+        public async Task<bool> MarkDoneAsync(Guid id, ApplicationUser currentUser)
         {
             return false;
         }

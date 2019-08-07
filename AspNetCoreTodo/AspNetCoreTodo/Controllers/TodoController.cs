@@ -4,19 +4,23 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using AspNetCoreTodo.Models;
 using AspNetCoreTodo.Services;
 
 namespace AspNetCoreTodo.Controllers
 {
+    [Authorize]
     public class TodoController : Controller
     {
-
         private readonly ITodoItemService _todoItemService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public TodoController(ITodoItemService todoItemService)
+        public TodoController(ITodoItemService todoItemService, UserManager<ApplicationUser> userManager)
         {
-            this._todoItemService = todoItemService;
+            _todoItemService = todoItemService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -25,7 +29,10 @@ namespace AspNetCoreTodo.Controllers
             // Put items into a model
             // Render view using the model
 
-            var items = await _todoItemService.GetIncompleteItemsAsync();
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null) return Challenge(); //Forzar que se loguee.
+
+            var items = await _todoItemService.GetIncompleteItemsAsync(currentUser);
 
             TodoViewModel viewModel = new TodoViewModel()
             {
@@ -37,14 +44,17 @@ namespace AspNetCoreTodo.Controllers
 
         [ValidateAntiForgeryToken] //Middelware que directamente si no matchea el token hidden del input... sale con error
         public async Task<IActionResult> AddItem(TodoItem newItem)
-        {
+        {            
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null) return Challenge(); //Forzar que se loguee.
+
             //Modelbinding (matchea por nombre de las propiedades)
             if(!ModelState.IsValid)
             {
                 return RedirectToAction("Index");
             }
 
-            var successful = await _todoItemService.AddItemAsync(newItem);
+            var successful = await _todoItemService.AddItemAsync(newItem, currentUser);
             
             if(!successful){
                 return BadRequest("Could not add item");
@@ -52,5 +62,8 @@ namespace AspNetCoreTodo.Controllers
 
             return RedirectToAction("index");
         }
+
+        //IMPLEMENTAR EL MARKDONE
+
     }
 }

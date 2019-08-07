@@ -1,0 +1,9 @@
+Code first
+[] Agregar user en el modelo TodoItem
+[] Correr el dotnet ef add migration "Agregando propiedad User en TodoItem"
+[] Ejecutar el comando ef update para planchar los cambios
+
+
+
+UserManager
+Al generar una nueva instancia en el todoController (utilizando DI)
