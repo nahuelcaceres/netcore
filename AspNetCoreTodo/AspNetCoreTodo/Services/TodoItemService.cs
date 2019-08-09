@@ -30,7 +30,7 @@ namespace AspNetCoreTodo.Services
             //newItem.DueAt = DateTimeOffset.Now.AddDays(3);
 
             _context.Items.Add(newItem);
-            newItem.UserID = currentUser.Id;
+            newItem.UserId = currentUser.Id;
 
             //var saveResult = await _context.Items.SaveChangesAsync();
             var saveResult = await _context.SaveChangesAsync();
@@ -41,7 +41,7 @@ namespace AspNetCoreTodo.Services
         public async Task<bool> MarkDoneAsync(Guid id, ApplicationUser currentUser)
         {
             var item = await _context.Items
-                                    .Where(x => x.Id == id && x.userId == currentUser.Id)
+                                    .Where(x => x.Id == id && x.UserId == currentUser.Id)
                                     .SingleOrDefaultAsync();
 
             if (item == null) return false;

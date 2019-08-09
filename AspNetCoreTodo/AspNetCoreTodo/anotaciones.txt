@@ -1,6 +1,6 @@
 Code first
 [] Agregar user en el modelo TodoItem
-[] Correr el dotnet ef add migration "Agregando propiedad User en TodoItem"
+[] Correr el dotnet ef migrations add "Agregando propiedad UserId en TodoItem"
 [] Ejecutar el comando ef update para planchar los cambios
 
 

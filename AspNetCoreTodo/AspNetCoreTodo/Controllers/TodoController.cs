@@ -63,7 +63,27 @@ namespace AspNetCoreTodo.Controllers
             return RedirectToAction("index");
         }
 
-        //IMPLEMENTAR EL MARKDONE
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MarkDoneAsync(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null) return Challenge();
+            
+            var successful = await _todoItemService
+                .MarkDoneAsync(id, currentUser);
+            
+            if (!successful)
+            {
+                return BadRequest("Could not mark item as done.");
+            }
+            
+            return RedirectToAction("Index");
+        }
 
     }
 }
