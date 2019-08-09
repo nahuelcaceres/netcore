@@ -22,7 +22,7 @@ namespace AspNetCoreTodo.Data
 
         //Ahora Entity Framework Core sabe que voy a trabajar con  TodoItem
         public DbSet<TodoItem> Items { get; set; }
-
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

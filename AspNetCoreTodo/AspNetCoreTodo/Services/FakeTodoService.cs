@@ -1,11 +1,16 @@
 using System;
 using System.Threading.Tasks;
 using AspNetCoreTodo.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace AspNetCoreTodo.Services
 {
     public class FakeTodoService : ITodoItemService
     {
+
+        public Task<TodoItem[]> GetIncompleteItemsAsync(IdentityUser currentUser){
+            return null;
+        }
 
         public Task<TodoItem[]> GetIncompleteItemsAsync(ApplicationUser currentUser)
         {
@@ -23,11 +28,19 @@ namespace AspNetCoreTodo.Services
 
         }
 
+
+        public async Task<bool> AddItemAsync(TodoItem newItem, IdentityUser currentUser){
+            return false;
+        }
+
         public async Task<bool> AddItemAsync(TodoItem newItem, ApplicationUser currentUser)
         {
             return false;
         }
 
+        public async Task<bool> MarkDoneAsync(Guid id, IdentityUser currentUser){
+            return false;
+        }
         public async Task<bool> MarkDoneAsync(Guid id, ApplicationUser currentUser)
         {
             return false;
